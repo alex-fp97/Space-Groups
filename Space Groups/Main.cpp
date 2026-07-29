@@ -4,29 +4,27 @@
 #include <vector>
 #include "Vector.h"
 
-int mod6(int a, int b) {
-	return (a + b) % 6;
-}
-
-
 int main() {
 
-	std::vector<double> comps = { 3, 2, 4 };
+	std::vector<double> comps = {3, 2, 4};
 
-	Vector v1(3);
-	Vector v2(3);
+	Vector v1(comps);
+	Vector v2(comps);
 
-	v1.setVectorComponents(comps);
-	v2.setVectorComponents(comps);
+	v1.print();
+	v2.print();
 
-	std::vector<Vector> elems = { v1, v2 };
+	//std::vector<Vector> elems = { v1, v2 };
 
-	Group<Vector> test(elems, Vector(*Vector.operator*)(Vector, Vector));
+	//Group<Vector> test(elems, Vector(*Vector.operator*)(Vector, Vector));
 
 
-	Vector v3 = v1 + v2;
+	Vector v3(3);
+	v3 = (v1 + v2);
 	v1.print();
 	v2.print();
 	v3.print();
+
+	std::cout << v1 * v2;
 
 }

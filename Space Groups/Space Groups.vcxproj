@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Group.h" />
-    <ClInclude Include="Operator.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>

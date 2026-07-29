@@ -18,9 +18,9 @@ public:
 	Group(std::vector<T> elements, T (*operation)(T, T)) : group_elements(elements), group_operation(operation) {}
 	~Group() {}
 
-	T operator* (T a, T b) {
+	/*T operator* (T a, T b) {
 		return group_operation{}(a, b);
-	}
+	}*/
 
 
 	//T getIdentity() { return identity; }
