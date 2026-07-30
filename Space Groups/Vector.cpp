@@ -1,51 +1,42 @@
 #include "Vector.h"
 #include <iostream>
 #include <math.h>
+#include <string>
 
-Vector::Vector(int dims) : dimensions(dims)
+Vector::Vector(int dimension) : v_elements(std::vector<double>(dimension)) 
 {
-	components = new double[dimensions];
+	dim2 = dimension;
 }
 
-Vector::Vector(const Vector &vec) : dimensions(vec.dimensions) 
+Vector::Vector(const Vector &vec) : dim2(vec.dim2) 
 {
-	components = new double[dimensions];
-	components = vec.components;
+	v_elements.resize(dim2);
+	v_elements = vec.v_elements;
 }
 
-Vector::Vector(const std::vector<double> comps) : dimensions(comps.size())
+Vector::Vector(const std::vector<double> comps) : dim2(comps.size())
 {
-	components = new double[dimensions];
-	setVectorComponents(comps);
+	v_elements = std::vector<double>(comps.begin(), comps.end());
 }
 
-Vector::~Vector() 
-{
-	delete components;
-}
+Vector::~Vector() {}
 
-void Vector::setVectorComponents(const std::vector<double> &comps)
+void Vector::setVectorElements(const std::vector<double> &comps)
 {
-	if (comps.size() != dimensions)
+	if (comps.size() != dim2)
 	{
-		std::cout << "Dimensions do not match. Given: " << comps.size() << " Expected: " << dimensions << std::endl;
-		return;
+		throw std::invalid_argument("dim do not match. Expected: " + std::to_string(dim2) + ", Given: " + std::to_string(comps.size()));
 	}
 
-	if (components == nullptr) components = new double[comps.size()];
-
-	for (int i = 0; i < dimensions; i++) 
-	{
-		components[i] = comps[i];
-	}
+	v_elements = std::vector<double>(comps.begin(), comps.end());
 }
 
-double Vector::norm() 
+double Vector::norm() const
 {
 	std::vector<double> comps;
-	for (int i = 0; i < dimensions; i++)
+	for (int i = 0; i < dim2; i++)
 	{
-		comps.push_back(components[i]);
+		comps.push_back(v_elements[i]);
 	}
 
 	Vector v(comps);
@@ -54,16 +45,16 @@ double Vector::norm()
 
 Vector Vector::operator+(const Vector &vec)
 {
-	if (dimensions != vec.dimensions)
+	if (dim2 != vec.dim2)
 	{
-		throw std::invalid_argument("Dimensions do not match");
+		throw std::invalid_argument("dim do not match");
 	}
 
-	Vector vec2(vec.dimensions);
+	Vector vec2(vec.dim2);
 
-	for (int i = 0; i < vec.dimensions; i++) 
+	for (int i = 0; i < vec.dim2; i++) 
 	{
-		vec2.components[i] = components[i] + vec.components[i];
+		vec2.v_elements[i] = v_elements[i] + vec.v_elements[i];
 	}
 
 	return vec2;
@@ -71,52 +62,66 @@ Vector Vector::operator+(const Vector &vec)
 
 double Vector::operator*(const Vector &vec)
 {
-	if (dimensions != vec.dimensions)
+	if (dim2 != vec.dim2)
 	{
-		if (dimensions != vec.dimensions)
+		if (dim2 != vec.dim2)
 		{
-			throw std::invalid_argument("Dimensions do not match");
+			throw std::invalid_argument("dim do not match");
 		}
 	}
 
 	double dot_product = 0;
 
-	for (int i = 0; i < dimensions; i++)
+	for (int i = 0; i < dim2; i++)
 	{
-		dot_product += components[i] * vec.components[i];
+		dot_product += v_elements[i] * vec.v_elements[i];
 	}
 
-	return dot_product;
+	return sqrt(dot_product);
 }
 
 Vector& Vector::operator=(const Vector &vec)
 {
 	if (this != &vec)
 	{
-		dimensions = vec.dimensions;
+		dim2 = vec.dim2;
 
 		std::vector<double> comps;
-		for (int i = 0; i < dimensions; i++)
+		for (int i = 0; i < dim2; i++)
 		{
-			comps.push_back(vec.components[i]);
+			comps.push_back(vec.v_elements[i]);
 		}
-		setVectorComponents(comps);
+		setVectorElements(comps);
 	}
 	return *this;
 }
 
-void Vector::print() 
+double& Vector::operator[](int i)
 {
-	if (components == nullptr)
-	{
-		std::cout << "No components to print" << std::endl;
-		return;
-	}
+	if (i > dim2-1) throw std::invalid_argument("Index is larger than current vector dimension");
+	if (i < 0) throw std::invalid_argument("Index is negative");
 
-	std::cout << "{";
-	for (int i = 0; i < dimensions-1; i++) 
+	return v_elements[i];
+}
+
+const double& Vector::operator[](int i) const
+{
+	if (i > dim2- 1) throw std::invalid_argument("Index is larger than current vector dimension");
+	if (i < 0) throw std::invalid_argument("Index is negative");
+
+	return v_elements[i];
+}
+
+void Vector::print() const
+{
+	for (int i = 0; i < dim1; i++)
 	{
-		std::cout << components[i] << ", ";
+		std::cout << "[";
+		int j;
+		for (j = 0; j < dim2 - 1; j++)
+		{
+			std::cout << v_elements[i][j] << ", ";
+		}
+		std::cout << v_elements[i][dim2 - 1] << "]" << std::endl;
 	}
-	std::cout << components[dimensions - 1] << "}" << std::endl;
 }

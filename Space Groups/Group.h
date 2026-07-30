@@ -1,24 +1,22 @@
 #pragma once
 #include <iostream>
-#include <unordered_set>
 #include <functional>
-#include <random>
+#include <vector>
 
 template <typename T>
 class Group {
 
-	std::vector<T> group_elements;
+	std::vector<T> gp_elements;
 	T identity;
-	T(*group_operation)(T, T);
-	T op;
+	T(*gp_operation)(const T&);
 
 public:
 	
 
-	Group(std::vector<T> elements, T (*operation)(T, T)) : group_elements(elements), group_operation(operation) {}
-	~Group() {}
+	Group(const std::vector<T> &elements, std::function<T(const T&)> func);
+	~Group();
 
-	/*T operator* (T a, T b) {
+	/*/T operator* (T a, T b) {
 		return group_operation{}(a, b);
 	}*/
 

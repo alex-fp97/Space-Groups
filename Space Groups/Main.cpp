@@ -2,6 +2,7 @@
 #include <functional>
 #include "Group.h"
 #include <vector>
+#include "Matrix.h"
 #include "Vector.h"
 
 int main() {
@@ -11,20 +12,20 @@ int main() {
 	Vector v1(comps);
 	Vector v2(comps);
 
-	v1.print();
-	v2.print();
+	//v1.print();
+	//v2.print();
 
-	//std::vector<Vector> elems = { v1, v2 };
+	std::vector<Vector> elems = { v1, v2 };
 
-	//Group<Vector> test(elems, Vector(*Vector.operator*)(Vector, Vector));
+	Matrix test(elems);
+	Matrix test1(elems);
 
+	Matrix add(test + test1);
 
-	Vector v3(3);
-	v3 = (v1 + v2);
-	v1.print();
-	v2.print();
-	v3.print();
-
-	std::cout << v1 * v2;
-
+	//test.print();
+	//test1.print();
+	add.print();
+	add.getRow(0).print(); std::cout<<std::endl;
+	add.getCol(0).print();
+	add.print();
 }
