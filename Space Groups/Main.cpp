@@ -1,31 +1,21 @@
 #include <iostream>
-#include <functional>
-#include "Group.h"
-#include <vector>
 #include "Matrix.h"
 #include "Vector.h"
 
 int main() {
 
-	std::vector<double> comps = {3, 2, 4};
+	Vector v1(std::vector<double>{ 3, 2, 4 });
+	Vector v2(std::vector<double>{ 1, 4, 5 });
+	Vector v3(std::vector<double>{ 1 });
 
-	Vector v1(comps);
-	Vector v2(comps);
 
-	//v1.print();
-	//v2.print();
+	Matrix m({ v1, v3 });
+	Matrix k({ v2, v1 });
+	k = k.transpose();
 
-	std::vector<Vector> elems = { v1, v2 };
+	std::cout << "oo";
 
-	Matrix test(elems);
-	Matrix test1(elems);
+	m.print(); std::cout << std::endl;
+	//k.print(); std::cout << std::endl;
 
-	Matrix add(test + test1);
-
-	//test.print();
-	//test1.print();
-	add.print();
-	add.getRow(0).print(); std::cout<<std::endl;
-	add.getCol(0).print();
-	add.print();
 }

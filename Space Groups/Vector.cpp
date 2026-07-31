@@ -2,22 +2,18 @@
 #include <iostream>
 #include <math.h>
 #include <string>
+#include <sstream>
 
-Vector::Vector(int dimension) : v_elements(std::vector<double>(dimension)) 
-{
-	dim2 = dimension;
-}
+Vector::Vector() : isEmpty(true) {};
 
-Vector::Vector(const Vector &vec) : dim2(vec.dim2) 
+Vector::Vector(int dimension) : dim2(dimension) {}
+
+Vector::Vector(const Vector &vec) : dim2(vec.dim2)
 {
-	v_elements.resize(dim2);
 	v_elements = vec.v_elements;
 }
 
-Vector::Vector(const std::vector<double> comps) : dim2(comps.size())
-{
-	v_elements = std::vector<double>(comps.begin(), comps.end());
-}
+Vector::Vector(const std::vector<double>& comps) : dim2(comps.size()), v_elements(comps) {}
 
 Vector::~Vector() {}
 
@@ -25,10 +21,16 @@ void Vector::setVectorElements(const std::vector<double> &comps)
 {
 	if (comps.size() != dim2)
 	{
-		throw std::invalid_argument("dim do not match. Expected: " + std::to_string(dim2) + ", Given: " + std::to_string(comps.size()));
+		throw std::invalid_argument("Dimensions do not match. Expected: " + std::to_string(dim2) + ", Given: " + std::to_string(comps.size()));
 	}
 
 	v_elements = std::vector<double>(comps.begin(), comps.end());
+}
+
+Vector& Vector::transpose()
+{
+	transposed = !transposed;
+	return *this;
 }
 
 double Vector::norm() const
@@ -40,14 +42,14 @@ double Vector::norm() const
 	}
 
 	Vector v(comps);
-	return v * v;
+	return sqrt(v * v);
 }
 
 Vector Vector::operator+(const Vector &vec)
 {
 	if (dim2 != vec.dim2)
 	{
-		throw std::invalid_argument("dim do not match");
+		throw std::invalid_argument("Dimensions do not match ( " + dimsToString() + ", " + vec.dimsToString() + " )");
 	}
 
 	Vector vec2(vec.dim2);
@@ -66,7 +68,7 @@ double Vector::operator*(const Vector &vec)
 	{
 		if (dim2 != vec.dim2)
 		{
-			throw std::invalid_argument("dim do not match");
+			throw std::invalid_argument("Dimensions do not match ( " + dimsToString() + ", " + vec.dimsToString() + " )");
 		}
 	}
 
@@ -77,7 +79,21 @@ double Vector::operator*(const Vector &vec)
 		dot_product += v_elements[i] * vec.v_elements[i];
 	}
 
-	return sqrt(dot_product);
+	return dot_product;
+}
+
+Vector Vector::operator*(double num)
+{
+	std::vector<double> elems = v_elements;
+
+	for (int i = 0; i < elems.size(); i++)
+	{
+		elems[i] = elems[i] * num;
+	}
+
+	Vector v(elems);
+
+	return v;
 }
 
 Vector& Vector::operator=(const Vector &vec)
@@ -85,6 +101,7 @@ Vector& Vector::operator=(const Vector &vec)
 	if (this != &vec)
 	{
 		dim2 = vec.dim2;
+		isEmpty = vec.isEmpty;
 
 		std::vector<double> comps;
 		for (int i = 0; i < dim2; i++)
@@ -93,7 +110,22 @@ Vector& Vector::operator=(const Vector &vec)
 		}
 		setVectorElements(comps);
 	}
+
 	return *this;
+}
+
+Vector Vector::operator/(double num)
+{
+	std::vector<double> elems = v_elements;
+
+	for (int i = 0; i < elems.size(); i++)
+	{
+		elems[i] = elems[i] / num;
+	}
+
+	Vector v(elems);
+
+	return v;
 }
 
 double& Vector::operator[](int i)
@@ -112,16 +144,45 @@ const double& Vector::operator[](int i) const
 	return v_elements[i];
 }
 
+void Vector::addElement(double e)
+{
+	v_elements.push_back(e); 
+	dim2++;
+	std::cout << "success" << std::endl;
+}
+
+const std::string Vector::dimsToString() const
+{
+	std::stringstream toReturn;
+	toReturn << '(' << dim1 << " x " << dim2 << ')';
+	return toReturn.str();
+}
+
 void Vector::print() const
 {
-	for (int i = 0; i < dim1; i++)
+	int m;
+	int n;
+
+	if (transposed) 
 	{
+		m = dim2;
+		n = dim1;
+	}
+	else
+	{
+		m = dim1;
+		n = dim2;
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		int j = 0;
 		std::cout << "[";
-		int j;
-		for (j = 0; j < dim2 - 1; j++)
+		for (int j = 0; j < n - 1; j++)
 		{
-			std::cout << v_elements[i][j] << ", ";
+			std::cout << v_elements[j] << ", ";
 		}
-		std::cout << v_elements[i][dim2 - 1] << "]" << std::endl;
+		if (transposed)	std::cout << v_elements[i] << "]" << std::endl;
+		else std::cout << v_elements[dim2-1] << "]" << std::endl;
 	}
 }

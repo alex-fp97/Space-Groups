@@ -1,29 +1,36 @@
 #pragma once
 #include <vector>
-#include "Vector.h"
 #include <string>
+
+class Vector;
 
 class Matrix {
 
 	std::vector<Vector> m_elements;
-	int dim1;
-	int dim2;
+	int dim1 = 0;
+	int dim2 = 0;
 
 public:
 
 	Matrix();
-	Matrix(const std::vector<Vector> &elements);
+	Matrix(const std::vector<Vector> &elems);
 	Matrix(const Matrix& m);
 	~Matrix();
 
-	void setDims(int m, int n) { dim1 = m; dim2 = n; }
+	void setDims(int m, int n);
 	void addCol(const Vector& v) { m_elements.push_back(v); }
-	Vector getRow(int i);
-	Vector getCol(int i);
-	void transpose();
+	Vector getRow(int i) const;
+	Vector getCol(int i) const;
+	void T();
+	Matrix transpose();
+
+	double normOne();
+	double normInf();
+	double normTwo();
 
 	Matrix operator+(const Matrix& m);
 	Matrix operator*(const Matrix& m);
+	Vector operator*(const Vector& v);
 	Matrix& operator=(const Matrix& m);
 
 	std::string dimsToString() const;
