@@ -1,21 +1,23 @@
 #include <iostream>
 #include "Matrix.h"
 #include "Vector.h"
-
 int main() {
 
-	Vector v1(std::vector<double>{ 3, 2, 4 });
-	Vector v2(std::vector<double>{ 1, 4, 5 });
-	Vector v3(std::vector<double>{ 1 });
+	Vector v1({ 0, 1 });
+	Vector v2({ -1, 0 });
 
+	Vector v3({ 0, -1 });
+	Vector v4({ 1, 0 });
 
-	Matrix m({ v1, v3 });
-	Matrix k({ v2, v1 });
-	k = k.transpose();
+	Matrix S_Inverse({ v3, v4 });
 
-	std::cout << "oo";
+	Matrix S({ v1, v2 });
+	Matrix R({ v2, v1 });
 
-	m.print(); std::cout << std::endl;
-	//k.print(); std::cout << std::endl;
+	S.print();
+	R.print();
 
+	(S*(R * S * R)).print();
+
+	S.getRow(0).print();
 }

@@ -34,8 +34,10 @@ public:
 	}
 	
 	Vector operator+(const Vector &vec);
+	Vector operator-(const Vector& vec);
 	double operator*(const Vector &vec);
 	Vector operator*(double num);
+	double operator|(const Vector& vec);
 	Vector& operator=(const Vector &vec);
 	Vector operator/(double num);
 	double& operator[](int i);

@@ -6,7 +6,7 @@
 
 Vector::Vector() : isEmpty(true) {};
 
-Vector::Vector(int dimension) : dim2(dimension) {}
+Vector::Vector(int dimension) : dim2(dimension), v_elements(std::vector<double>(dimension)) {}
 
 Vector::Vector(const Vector &vec) : dim2(vec.dim2)
 {
@@ -52,14 +52,30 @@ Vector Vector::operator+(const Vector &vec)
 		throw std::invalid_argument("Dimensions do not match ( " + dimsToString() + ", " + vec.dimsToString() + " )");
 	}
 
-	Vector vec2(vec.dim2);
+	Vector vec2(dim2);
 
-	for (int i = 0; i < vec.dim2; i++) 
+	for (int i = 0; i < dim2; i++) 
 	{
 		vec2.v_elements[i] = v_elements[i] + vec.v_elements[i];
 	}
 
 	return vec2;
+}
+
+Vector Vector::operator-(const Vector& vec)
+{
+	if (dim2 != vec.dim2)
+	{
+		throw std::invalid_argument("Dimensions do not match ( " + dimsToString() + ", " + vec.dimsToString() + " )");
+	}
+	Vector v(dim2);
+	
+	for (int i = 0; i < dim2; i++)
+	{
+		v.v_elements[i] = v_elements[i] - vec.v_elements[i];
+	}
+
+	return v;
 }
 
 double Vector::operator*(const Vector &vec)
@@ -94,6 +110,11 @@ Vector Vector::operator*(double num)
 	Vector v(elems);
 
 	return v;
+}
+
+double Vector::operator|(const Vector& vec)
+{
+	return ((*this) * vec) / ((*this).norm() * vec.norm());
 }
 
 Vector& Vector::operator=(const Vector &vec)
@@ -148,7 +169,6 @@ void Vector::addElement(double e)
 {
 	v_elements.push_back(e); 
 	dim2++;
-	std::cout << "success" << std::endl;
 }
 
 const std::string Vector::dimsToString() const
