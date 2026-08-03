@@ -21,6 +21,8 @@ public:
 	void addCol(const Vector& v) { m_elements.push_back(v); }
 	Vector getRow(int i) const;
 	Vector getCol(int i) const;
+	Vector& row(int i);
+	Vector& col(int i);
 	void T();
 	Matrix transpose();
 

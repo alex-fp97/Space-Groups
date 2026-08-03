@@ -1,23 +1,30 @@
 #include <iostream>
-#include "Matrix.h"
-#include "Vector.h"
+#include "matr.h"
 int main() {
 
-	Vector v1({ 0, 1 });
-	Vector v2({ -1, 0 });
+	std::vector<double> v1 = { 0, 1 };
+	std::vector<double> v2 = { 2, 1 };
+	std::vector<double> v3 = { 4, 3 };
 
-	Vector v3({ 0, -1 });
-	Vector v4({ 1, 0 });
+	std::vector<std::vector<double>> vec1 = { v1, v2 };
+	std::vector<std::vector<double>> vec2 = { v2, v3 };
 
-	Matrix S_Inverse({ v3, v4 });
+	Matrix Q(vec1);
+	Matrix R(vec2);
+	//S.print();
+	//R.print();
+	Matrix A = (Q * R);
 
-	Matrix S({ v1, v2 });
-	Matrix R({ v2, v1 });
+	A.print();
+	A = A.transpose();
+	A.print();
+	A.transpose().print();
+	A.print();
 
-	S.print();
-	R.print();
 
-	(S*(R * S * R)).print();
+	//(S*(R * S * R)).print();
 
-	S.getRow(0).print();
+	//S.getCol(0).print();
+
+
 }

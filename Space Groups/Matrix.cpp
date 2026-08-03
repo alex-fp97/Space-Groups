@@ -151,7 +151,18 @@ Vector Matrix::getCol(int i) const
 	}
 
 	column.transpose();
+
 	return column;
+}
+
+Vector& Matrix::row(int i)
+{
+	return m_elements[i];
+}
+
+Vector& Matrix::col(int i)
+{
+	return this->transpose().m_elements[i];
 }
 
 Matrix Matrix::operator+(const Matrix& m)
