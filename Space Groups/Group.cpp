@@ -3,17 +3,6 @@
 #include <functional>
 #include <vector>
 
-//template<typename T> Group<T>::Group(const std::vector<T> &elements, std::function<T(const T&)> func) : gp_elements(elements)
-//{
-//    gp_operation = func<T>;
-//}
-
-template<typename T> Group<T>::~Group()
-{
-    delete gp_operation;
-}
-
-
 
 /*template<typename T, typename Op> T Group<T, Op>::findIdentity()
 {

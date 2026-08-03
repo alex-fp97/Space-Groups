@@ -1,30 +1,34 @@
 #include <iostream>
 #include "matr.h"
+#include "Group.h"
 int main() {
 
-	std::vector<double> v1 = { 0, 1 };
-	std::vector<double> v2 = { 2, 1 };
-	std::vector<double> v3 = { 4, 3 };
+	std::vector<double> v1 = { 0, -1 };
+	std::vector<double> v2 = { 1, 0 };
+	std::vector<double> v3 = { -1, 0 };
+	std::vector<double> v4 = { 0, 1 };
 
 	std::vector<std::vector<double>> vec1 = { v1, v2 };
-	std::vector<std::vector<double>> vec2 = { v2, v3 };
+	std::vector<std::vector<double>> vec2 = { v3, v4 };
 
-	Matrix Q(vec1);
+	Matrix S(vec1);
 	Matrix R(vec2);
 	//S.print();
 	//R.print();
-	Matrix A = (Q * R);
+	Matrix I = S * S * S * S;
 
-	A.print();
-	A = A.transpose();
-	A.print();
-	A.transpose().print();
-	A.print();
+	//I.print();
+	
+	std::vector<Matrix> e = { S, (S * S), (S * S * S), R };
 
+	Group<Matrix> D(e);
 
-	//(S*(R * S * R)).print();
+	D.getIdentity().print();
 
-	//S.getCol(0).print();
+	std::vector<Matrix> D_elems = D.getElements();
+
+	D_elems[0].print();
+
 
 
 }
