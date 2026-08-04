@@ -23,9 +23,9 @@ public:
 	void setIdentity()
 	{
 		T e = gp_elements[0];
-		for (int i = 0; i < order; i++)
+		for (int i = 0; i < order-1; i++)
 		{
-			e = e * e;
+			e = e * gp_elements[0];
 		}
 		identity = e;
 	}
@@ -35,15 +35,5 @@ public:
 		return gp_elements;
 	}
 
-	/*/T operator* (T a, T b) {
-		return group_operation{}(a, b);
-	}*/
-
-
-	//T getIdentity() { return identity; }
-
-	//T findIdentity();
-
-	//T operator*(const T &elem)
-		
+	void setOrder(int i) { order = i; }
 };

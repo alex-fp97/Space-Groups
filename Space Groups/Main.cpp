@@ -13,9 +13,13 @@ int main() {
 
 	Matrix S(vec1);
 	Matrix R(vec2);
-	//S.print();
+	//S.print(); std::cout << '\n';
+	//S.transpose().print(); std::cout << '\n';
+	//S.print(); std::cout << '\n';
+	
+
 	//R.print();
-	Matrix I = S * S * S * S;
+	//Matrix I = S * S * S * S;
 
 	//I.print();
 	
@@ -23,12 +27,7 @@ int main() {
 
 	Group<Matrix> D(e);
 
+	D.setOrder(8);
+
 	D.getIdentity().print();
-
-	std::vector<Matrix> D_elems = D.getElements();
-
-	D_elems[0].print();
-
-
-
 }

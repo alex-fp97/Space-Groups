@@ -5,11 +5,11 @@
 class Matrix {
 
 
+	double **m_elements = nullptr;
 	int m = 0;
 	int n = 0;
 
 public:
-	double **m_elements = nullptr;
 	Matrix();
 	Matrix(const std::vector<std::vector<double>>& elems);
 	Matrix(int m, int n);
@@ -20,6 +20,7 @@ public:
 	Matrix operator+(const Matrix& M);
 	Matrix operator*(const Matrix& M);
 
+	void T();
 	Matrix transpose();
 	std::string dimsToString() const;
 	void print() const;

@@ -145,30 +145,43 @@ Matrix Matrix::operator*(const Matrix& M)
 	return S;
 }
 
-Matrix Matrix::transpose()
+void Matrix::T()
 {
-	
-	int temp = m;
-	m = n;
-	n = temp;
-
-	double** new_elems = new double* [m];
-	for (int i = 0; i < m; i++)
+	double** elems = new double*[n];
+	for (int i = 0; i < n; i++)
 	{
-		new_elems[i] = new double[n];
+		elems[i] = new double[m];
 	}
 
 	for (int i = 0; i < m; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			new_elems[j][i] = m_elements[i][j];
+			elems[j][i] = m_elements[i][j];
 		}
 	}
 
-	m_elements = new_elems;
+	m_elements = elems;
 
-	return *this;
+	int temp = m;
+	m = n;
+	n = temp;
+}
+
+Matrix Matrix::transpose()
+{
+	
+	Matrix newM(n, m);
+
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			newM.m_elements[j][i] = m_elements[i][j];
+		}
+	}
+
+	return newM;
 }
 
 std::string Matrix::dimsToString() const
